@@ -3,8 +3,6 @@
     grid-template-columns: repeat(13, 1fr);
     background-color: #2196F3;
     padding: 10px;
-
-   
   }
   .alphabet__container__item {
     background-color: rgba(255, 255, 255, 0.8);
@@ -16,18 +14,44 @@
   .question__container{
     margin-bottom: 20px;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     background-color: #2196F3;
     padding: 10px;
-   
+  }
+  .answer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .answer p{
+    font-size: 30px;
   }
   .question__container__item{
-    
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(0, 0, 0, 0.8);
     padding: 20px;
     font-size: 30px;
     text-align: center;
-    /* display: block; */
+  }
+  .disabledCorrectLetter{
+    background-color: rgb(2, 129, 66);
+  }
+  .disabledIncorrectLetter{
+    background-color: rgb(228, 21, 21);
+  }
+  .question__block__container{
+    max-width: 50%;
+    margin: auto;
   }
   
+.machResult{
+  width: 40%;
+  padding: 30px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 40px;
+  background-color: rgb(226, 226, 226);
+}
+
