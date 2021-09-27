@@ -64,15 +64,13 @@ function alphabetLetterBlocksClick(event) {
             answerLetterBlocks[i].innerHTML = selectedSymbool;
              
         }
-       
     }
+
     if(thereIs){
         event.target.classList.add('disabledCorrectLetter'); 
-    }
-    else{
-      
+    } else {
         count--;
-         event.target.classList.add('disabledIncorrectLetter');
+        event.target.classList.add('disabledIncorrectLetter');
     }
     if(count===0){
         machResult.innerHTML = 'GAME over!!! you lost';
