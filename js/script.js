@@ -1,15 +1,16 @@
 const startGameContainer = document.querySelector('.start__game__container');
-
-
 const machResult = document.createElement('div');
-const startGameAgainButton=document.createElement('button');
+const tryAgain = document.createElement('div');
+const startGameAgainButton = document.createElement('button');
 const startButton = document.querySelector('.start__button');
 const container = document.getElementById('absolute-container');
 const answer = 'Yerevan'.toUpperCase();
 let count = 5;
-const gameEnded = false;
-const possibilityCount = 0;
+let rightAnswerCount = 0;
 
+machResult.className = 'machResult';
+tryAgain.classList="tryAgain";
+tryAgain.innerHTML='Try Again';
 
 function createAlphabet() {
     const alphabet = document.createElement('div');
@@ -27,7 +28,7 @@ function createAnswerSection() {
     const answerBlockContainer = document.createElement('div');
     const answerBlock = document.createElement('div');
     answerBlock.className = 'answer__container';
-    answerBlockContainer.className='answer__block__container';
+    answerBlockContainer.className = 'answer__block__container';
     answerBlockContainer.appendChild(answerBlock);
     for (let i = 0; i < answer.length; i++) {
         let answerLetterBlock = document.createElement('div');
@@ -38,123 +39,91 @@ function createAnswerSection() {
     startGameContainer.appendChild(answerBlockContainer);
 }
 
-
 function startGame() {
     const startPageContainer = document.querySelector('.start__page__container');
-    startPageContainer.classList='startPageStyleAfterStart';
-    startGameContainer.classList="startGameStyleAfterStart";
+    startPageContainer.classList = 'startPageStyleAfterStart';
+    startGameContainer.classList = "startGameStyleAfterStart";
     createAnswerSection()
     createAlphabet();
-    
     let alphabetLetterBlocks = document.querySelectorAll(".alphabet__container__item");
     alphabetLetterBlocks.forEach(element => { element.addEventListener("click", alphabetLetterBlocksClick) });
 }
 
-startButton.addEventListener('click', startGame);
-
-
-
 function alphabetLetterBlocksClick(event) {
-    let selectedSymbool = event.target.innerHTML;
-    let thereIs=false;
     const answerLetterBlocks = document.querySelectorAll(".answer__container__item");
-    for(let i = 0; i < answer.length; i++) {
-        if(answer[i] === selectedSymbool) {
-            thereIs=true;
+    const selectedSymbool = event.target.innerHTML;
+    let thereIs = false;
+    event.currentTarget.removeEventListener("click", alphabetLetterBlocksClick);
+
+    for (let i = 0; i < answer.length; i++) {
+        if (answer[i] === selectedSymbool) {
+            thereIs = true;
             answerLetterBlocks[i].innerHTML = selectedSymbool;
-             
+            rightAnswerCount++;
+            event.target.classList.add('disabledCorrectLetter');
         }
     }
-
-    if(thereIs){
-        event.target.classList.add('disabledCorrectLetter'); 
-    } else {
+    if (!thereIs) {
         count--;
         event.target.classList.add('disabledIncorrectLetter');
     }
-    if(count===0){
+    if (count === 0) {
         machResult.innerHTML = 'GAME over!!! you lost';
         machResult.classList.add('lostResultStyle');
-        startGameContainer.style.opacity = 0.3;
-        container.appendChild(machResult);
-        const confetti = new ConfettiGenerator(confettyFactory(false));
-        confetti.render();
+        checkLoseOrWin();
     }
-       
-
-    // const indexOfAll = (arr, val) => arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
-    // if (answer.includes(ellement)) {
-    //     let firstIndex = answer.indexOf(ellement);
-    //     let lastIndex = answer.lastIndexOf(ellement);
-
-    //     if (firstIndex === lastIndex) {
-    //         answerLetterBlocks[firstIndex].innerHTML = ellement;
-    //         count--;
-    //     }
-    //     else {
-    //         let indexesՕfSameLetters = indexOfAll(Array.from(answer), ellement);
-    //         for (let i = 0; i < indexesՕfSameLetters.length; i++) {
-    //             let ell = indexesՕfSameLetters[i]
-    //             answerLetterBlocks[ell].innerHTML = ellement;
-    //         }
-    //         count = count - indexesՕfSameLetters.length;
-    //     }
-
-    //     event.currentTarget.removeEventListener("click", alphabetLetterBlocksClick);
-    //     event.target.classList.add('disabledCorrectLetter');
-    // }
-    // else {
-    //     possibilityCount++;
-    //     event.currentTarget.removeEventListener("click", alphabetLetterBlocksClick);
-    //     event.target.classList.add('disabledIncorrectLetter');
-    // }
-
-    // if (count === 0) {
-    //   
-    // }
-
-    // if (possibilityCount >= 5) {
-    //     possibilityCount = 0;
-    //     machResult.innerHTML = 'GAME over!!! you lost';
-    //     machResult.classList.add('lostResultStyle');
-    //     startGameContainer.style.opacity = 0.3;
-    //     container.appendChild(machResult);
-    //     const confetti = new ConfettiGenerator(confettyFactory(false));
-    //     confetti.render();
-    //     gameEnded = true;
-    // }
-
-    // if (gameEnded) {
-    //     for (let i = 0; i < alphabetLetterBlocks.length; i++) {
-    //         alphabetLetterBlocks[i].removeEventListener("click", alphabetLetterBlocksClick);
-    //     }
-    // }
-    
+    if (rightAnswerCount === answer.length) {
+        machResult.innerHTML = ' you won!!';
+        machResult.classList.add('wonResultStyle');
+        checkLoseOrWin();
+    }
 }
 
+function checkLoseOrWin() {
+    startGameContainer.style.opacity = 0.3;
+    container.appendChild(machResult);
+    container.appendChild(tryAgain);
+    const confetti = new ConfettiGenerator(confettyFactory(!!count));
+    confetti.render();
+    disabledAlphabetAllLetters();
+}
+
+function disabledAlphabetAllLetters() {
+    const alphabetLetterBlocks = document.querySelectorAll(".alphabet__container__item");
+    for (let i = 0; i < alphabetLetterBlocks.length; i++) {
+        alphabetLetterBlocks[i].removeEventListener("click", alphabetLetterBlocksClick);
+    }
+}
+
+function startAgain() {
+    window.location.reload(true); 
+}
 
 function confettyFactory(state) {
     const props = {
         target: 'my-canvas',
         max: 10,
         size: 12,
-     };
-    if(state) {
+    };
+    if (state) {
         return {
             ...props,
             props: [
                 "circle",
                 "square",
                 { "type": "svg", "src": "img/1.jpg" },
-              ]
-         };
+            ]
+        };
     } else {
         return {
             ...props,
             props: [
                 { "type": "svg", "src": "img/2.jpg" }
-              ]
-         };
+            ]
+        };
     }
-    
+
 }
+
+startButton.addEventListener('click', startGame);
+tryAgain.addEventListener('click',startAgain );

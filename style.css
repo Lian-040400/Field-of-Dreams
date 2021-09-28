@@ -36,7 +36,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 220%);
+  transform: translate(-50%, 250%);
 font-size: 25px;
 color: rgb(250, 213, 1);
 padding: 30px 40px;
@@ -69,6 +69,9 @@ border-radius: 15px ;
     padding: 20px;
     font-size: 30px;
     text-align: center;
+  }
+  .alphabet__container__item:hover{
+    cursor: pointer;
   }
   .answer__container{
     margin-bottom: 20px;
@@ -115,5 +118,24 @@ border-radius: 15px ;
 }
 .lostResultStyle{
   background-color: rgba(209, 17, 17, 0.623);
+}
+.wonResultStyle{
+  background-color: rgba(16, 179, 38, 0.562);
+}
+.tryAgain{
+  background-color: rgb(2, 129, 66);
+  width: 15%;
+  padding: 20px 10px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 100px;
+  background-color: rgba(2, 129, 66);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+.tryAgain:hover{
+  cursor: pointer;
 }
 
