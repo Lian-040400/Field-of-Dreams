@@ -1,0 +1,24 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "question": "What is the capital of Armenia?",
+            "answer": "Yerevan"
+        },
+        {
+            "id": 2,
+            "question": "What is the capital of  Italy?",
+            "answer": "Rome"
+        },
+        {
+            "id": 3,
+            "question": "What is the capital of Great Britain?",
+            "answer": "London"
+        },
+        {
+            "id": 4,
+            "question": "What is the capital of  Spain?",
+            "answer": "Madrid"
+        }
+    ]
+}
