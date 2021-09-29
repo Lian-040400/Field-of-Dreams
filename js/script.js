@@ -4,13 +4,26 @@ const tryAgain = document.createElement('div');
 const startGameAgainButton = document.createElement('button');
 const startButton = document.querySelector('.start__button');
 const container = document.getElementById('absolute-container');
-const answer = 'Yerevan'.toUpperCase();
-let count = 5;
+const questionSection = document.getElementById('question');
+let chance = 5;
 let rightAnswerCount = 0;
+let answer;
 
 machResult.className = 'machResult';
 tryAgain.classList="tryAgain";
 tryAgain.innerHTML='Try Again';
+
+fetch('http://localhost:3000/questions')
+  .then(response => response.json())
+  .then(questions => {
+    const indexOfQuestion = Math.floor(Math.random() * questions.length);
+    answer = questions[indexOfQuestion].answer.toUpperCase();
+    questionSection.innerText = questions[indexOfQuestion].question;
+    createAnswerSection();
+  })
+  .catch((error)=>{
+      document.body.innerHTML = `<h1 style='color: red'>Somethins is wrong !!!</h1>`
+  })
 
 function createAlphabet() {
     const alphabet = document.createElement('div');
@@ -43,7 +56,6 @@ function startGame() {
     const startPageContainer = document.querySelector('.start__page__container');
     startPageContainer.classList = 'startPageStyleAfterStart';
     startGameContainer.classList = "startGameStyleAfterStart";
-    createAnswerSection()
     createAlphabet();
     let alphabetLetterBlocks = document.querySelectorAll(".alphabet__container__item");
     alphabetLetterBlocks.forEach(element => { element.addEventListener("click", alphabetLetterBlocksClick) });
@@ -64,10 +76,10 @@ function alphabetLetterBlocksClick(event) {
         }
     }
     if (!thereIs) {
-        count--;
+        chance--;
         event.target.classList.add('disabledIncorrectLetter');
     }
-    if (count === 0) {
+    if (chance === 0) {
         machResult.innerHTML = 'GAME over!!! you lost';
         machResult.classList.add('lostResultStyle');
         checkLoseOrWin();
@@ -83,7 +95,7 @@ function checkLoseOrWin() {
     startGameContainer.style.opacity = 0.3;
     container.appendChild(machResult);
     container.appendChild(tryAgain);
-    const confetti = new ConfettiGenerator(confettyFactory(!!count));
+    const confetti = new ConfettiGenerator(confettyFactory(!!chance));
     confetti.render();
     disabledAlphabetAllLetters();
 }
